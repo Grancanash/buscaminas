@@ -1,0 +1,23 @@
+@use '../abstracts/variables' as vars;
+
+button {
+    display: block;
+    padding: 5px 20px;
+    text-decoration: none;
+    color: vars.$blue;
+    border: solid 1px #dddddd;
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    font-size: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    cursor: pointer;
+
+    &:hover {
+        color: white;
+        background-color: vars.$blue;
+    }
+
+    &:visited {
+        color: #7aa7b8;
+    }
+}

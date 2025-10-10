@@ -1,0 +1,22 @@
+@use 'variables';
+
+@mixin breakpoint($bp) {
+  @if $bp == tablet {
+    @media (min-width: variables.$bp-tablet) {
+      @content;
+    }
+  } @else if $bp == tablethorizontal {
+    @media (min-width: variables.$bp-tablet-horizontal) {
+      @content;
+    }
+  } @else if $bp == desktop {
+    @media (min-width: variables.$bp-desktop) {
+      @content;
+    }
+  } @else if $bp == desktopxl {
+    @media (min-width: variables.$bp-desktop-xl) {
+      @content;
+    }
+  }
+}
+

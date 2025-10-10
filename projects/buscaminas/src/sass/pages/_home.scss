@@ -1,0 +1,222 @@
+@use '../abstracts/abstracts' as abs;
+
+main {
+    text-align: center;
+
+    section {
+
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2px;
+
+            h1 {
+                margin-bottom: 20px;
+                color: abs.$blue;
+            }
+            
+            .box {
+                display: flex;
+                padding: 0 30px;
+                border: 1px solid abs.$grey-light;
+                border-radius: 5px;
+                background-color: abs.$blue-light;
+            }
+
+            #title {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                
+                h1 {
+                    margin: 0;
+                }
+
+                p:last-of-type {
+                    font-size: 22px;
+                    font-weight: 600;
+                }
+            }
+
+            #console {
+                flex: 1;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 0 auto;
+                transition: height .5s ease;
+                // gap: 10px;
+
+                #info {
+                    width: max-content;
+                    display: flex;
+                    flex-direction: column;
+                    height:100px;
+                    transition: height .5s ease;
+                    
+                    p > span {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-left: 10px;
+                        font-family: abs.$digital7Mono-font;
+                        font-size: 40px;
+                    }
+                    #mines {
+                        overflow: hidden;
+                        height: 100%;
+                        transition: all .5s ease;
+                    }
+                }
+
+                #result {
+                    height: 0;
+                    overflow: hidden;
+                    transition: all .5s ease;
+
+                    > div {
+
+                        width: max-content;
+                        display: flex;
+                        overflow: hidden;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 10px;
+
+                        h3 {
+                            font-size: 30px;
+                        }
+
+                        button {
+                            display: block;
+                        }
+                    }
+                }
+            }
+
+            #records {
+                flex-direction: column;
+                justify-content: center;
+                flex: 1;
+
+                padding: 20px;
+
+                p {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &:first-of-type {
+                        flex: 2;
+                        font-size: 24px;
+                        
+                        .btn-reset {
+                            width: 30px;
+                            height: 30px;
+                            background: url('../../img/reset.svg');
+                            background-repeat: no-repeat;
+                            background-size: 15px 15px;
+                            background-position: center;
+                            
+                            cursor: pointer;
+                        }
+                    }
+
+                    &:not(:first-of-type) {
+                        flex: 1;
+                        span {
+                            flex: 1;
+                            &:last-of-type {
+                                font-family: abs.$digital7Mono-font;
+                                font-size: 20px;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        #grid {
+            display: grid;
+            border-top: solid 5px abs.$grey-light;
+            border-right: solid 5px abs.$grey-light;
+            border-bottom: solid 5px abs.$grey;
+            border-left: solid 5px abs.$grey;
+
+            > div {
+                aspect-ratio: 1 / 1;
+                background-color: abs.$grey-superlight;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                border-top: solid 2px abs.$grey-light;
+                border-right: solid 2px abs.$grey-light;
+                border-bottom: solid 2px abs.$grey-dark;
+                border-left: solid 2px abs.$grey-dark;
+                user-select: none;
+                transition: background-color .2s ease;
+
+                &.cell-pressed {
+                    background-color: abs.$grey-dark;
+                }
+
+                &.disabled {
+                    background-color: abs.$white;
+                }
+
+                &.flag {
+                    background: url('../../img/flag.svg') #e1e1e1;
+                    background-repeat: no-repeat;
+                    background-size: 70%;
+                    background-position: center;
+                }
+
+                &.mark {
+                    background: url('../../img/mark.svg') #e1e1e1;
+                    background-repeat: no-repeat;
+                    background-size: 70%;
+                    background-position: center;
+                }
+
+                &.mine {
+                    background: url('../../img/mine.svg') abs.$white;
+                    background-repeat: no-repeat;
+                    background-size: 70%;
+                    background-position: center;
+                }
+            }
+        }
+
+    }
+
+    @include abs.breakpoint(desktop) {
+        width: 1000px;
+        margin: 50px auto;
+
+        section  {
+            header {
+                flex-direction: row;
+                width: max-content;
+                height: 200px;
+                margin: 0 auto 30px;
+                gap: 10px;
+            }
+
+            #grid {
+                display: inline-grid;
+                box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+                > div {
+                    width: 30px;
+                    height: 30px;
+                }
+
+            }
+        }
+    }
+    
+}

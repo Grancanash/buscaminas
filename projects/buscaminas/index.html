@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscaminas</title>
+</head>
+
+<body>
+    <main>
+        <section>
+            <header>
+                <div id="title" class="box">
+                    <h1>Buscaminas</h1>
+                    <p>Descubre las casillas vacías evitando las minas ocultas</p>
+                    <p>¡¡Suerte!!</p>
+                </div>
+                <div id="console" class="box">
+                    <div id="info">
+                        <div id="mines">
+                            <p>Minas restantes: <span>0</span></p>
+                        </div>
+                        <div id="timer">
+                            <p>Tiempo: <span id="timer-display">00:00:00</span></p>
+                        </div>
+                    </div>
+                    <div id="result">
+                        <div>
+                            <h3></h3>
+                            <p><button>Nueva partida</button></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="records" class="box">
+                    <p>Récords <span class="btn-reset" title="Reiniciar Récords" aria-multiline="Reiniciar Récords"></span></p>
+                    <p><span>8x8:</span><span>00:00:00</span></p>
+                    <p><span>16x16:</span><span>00:00:00</span></p>
+                    <p><span>16x30:</span><span>00:00:00</span></p>
+                </div>
+            </header>
+            <!-- Tablero del juego -->
+            <div id="grid" class="dificult-1"></div>
+            <!-- Fin Tablero del juego -->
+        </section>
+    </main>
+    <div id="prompt-window" class="window">
+        <div class="prompt-box">
+            <h2>Tamaño del tablero</h2>
+            <p><button type="button" id="btn_beginner">Principiante: 9x9</button></p>
+            <p><button type="button" id="btn_intermediate">Intermedio: 16x16</button></p>
+            <p><button type="button" id="btn_expert">Experto: 16x30</button></p>
+        </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>
