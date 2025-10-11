@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
     root: '.',       // raíz del proyecto
-    base: './',      // paths relativos en producción
+    base: '/buscaminas/',      // paths relativos en producción
     server: {
         watch: {
             usePolling: true,  // polling para WSL
