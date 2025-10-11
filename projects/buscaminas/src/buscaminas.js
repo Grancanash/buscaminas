@@ -6,6 +6,7 @@ export class Buscaminas {
     #remainingMines;
     #clickedCell;
     #timer;
+    #movilTimer;
     #display;
 
     constructor() {
@@ -351,7 +352,7 @@ export class Buscaminas {
     }
 
     // Lógica que manipula el uso de banderas
-    fixFlag = () => {
+    fixFlag = (event) => {
         const cell = this.#grid[this.getIndexCell(this.#clickedCell)]
         const flags = this.#grid.reduce((acc, cell) => acc + (cell.flag ? 1 : 0), 0);
 
@@ -389,27 +390,43 @@ export class Buscaminas {
         // Se elimina el menú contextual al pulsar botón derecho del ratón
         document.addEventListener('contextmenu', event => event.preventDefault());
         // Listener para el ratón pulsado
-        document.addEventListener('mousedown', event => {
+        document.addEventListener('pointerdown', event => {
             // Se asegura que se pulse una celda del tablero
+
             if (!event.target.classList.contains('cell')) return;
             this.#clickedCell = event.target;
-            if (event.buttons === 1 && !this.#clickedCell.classList.contains('disabled')) {
-                // Pintar la celda pulsada de gris oscuro
-
-                this.#clickedCell.classList.add('cell-pressed');
-            } else if (event.buttons === 2) {
+            if (event.pointerType === "mouse") {
+                if (event.button === 0 && !this.#clickedCell.classList.contains('disabled')) {
+                    // Pintar la celda pulsada de gris oscuro
+                    this.#clickedCell.classList.add('cell-pressed');
+                } else if (event.button === 2) { // Click derecho
+                    event.preventDefault();
+                    this.fixFlag();
+                }
+            } else if (event.pointerType === 'touch') {
                 event.preventDefault();
-                this.fixFlag();
+                this.#clickedCell.classList.add('cell-pressed');
+                // Simulación click derecho en móviles
+                this.#movilTimer = setTimeout(() => {
+                    this.fixFlag();
+                }, 600);
             }
         });
 
         // Listener para el ratón liberado
-        document.addEventListener('mouseup', event => {
-            if (this.#clickedCell) {
-                this.#clickedCell.classList.remove('cell-pressed');
-                this.checkClick();
+        document.addEventListener('pointerup', event => {
+            if (event.button === 0) {
+                if (this.#clickedCell) {
+                    this.#clickedCell.classList.remove('cell-pressed');
+                    this.checkClick();
+                }
             }
         });
+
+        document.addEventListener("pointerup", () => clearTimeout(this.#movilTimer));
+        document.addEventListener("pointerleave", () => clearTimeout(this.#movilTimer));
+
+
     }
 }
 

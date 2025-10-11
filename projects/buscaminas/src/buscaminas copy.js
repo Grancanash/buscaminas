@@ -6,8 +6,8 @@ export class Buscaminas {
     #remainingMines;
     #clickedCell;
     #timer;
-    #busy;
-    #transitionQueue;
+    #movilTimer;
+    #display;
 
     constructor() {
         this.#timer = new Timer("timer-display");
@@ -75,19 +75,30 @@ export class Buscaminas {
         grid.innerText = '';
         this.#grid = []
 
+        // Detectamos el dispositivo para el aspecto responsive
+        if (window.innerWidth < 768) {
+            this.#display = 'm'
+        } else {
+            this.#display = 'd'
+        }
+
         let row, column = 0;
         switch (level) {
             case 1:
+                grid.classList.add('dificult-1');
                 row = column = 9;
                 this.#totalMines = 10;
                 break;
             case 2:
-                row = column = 16;
+                grid.classList.add('dificult-2');
+                row = this.#display === 'd' ? 16 : 32;
+                column = this.#display === 'd' ? 16 : 8;
                 this.#totalMines = 40;
                 break;
             case 3:
-                row = 16;
-                column = 30;
+                grid.classList.add('dificult-3');
+                row = this.#display === 'd' ? 16 : 48;
+                column = this.#display === 'd' ? 30 : 10;
                 this.#totalMines = 99;
                 break;
         }
@@ -101,7 +112,6 @@ export class Buscaminas {
         }
 
         const arrMines = this.randomMines(this.#totalMines, row * column);
-        // console.log(arrMines, row * column)
         let counter = 1;
 
         // Se inicializa el #grid
@@ -115,14 +125,14 @@ export class Buscaminas {
         this.#remainingMines = this.#totalMines;
         document.querySelector('#mines span').innerText = this.#remainingMines;
 
-        // --------------------------- ELIMINAR
-        // muestra las minas
-        let n = 0;
-        for (let div of document.querySelectorAll('#grid>div')) {
-            if (this.#grid[n].containMine)
-                div.textContent = '*';
-            n++;
-        }
+        // // --------------------------- ELIMINAR
+        // // muestra las minas
+        // let n = 0;
+        // for (let div of document.querySelectorAll('#grid>div')) {
+        //     if (this.#grid[n].containMine)
+        //         div.textContent = '*';
+        //     n++;
+        // }
     }
 
     randomMines = (totalMines, totalCells) => {
@@ -167,10 +177,6 @@ export class Buscaminas {
             return;
         }
 
-
-        console.log('--------------------------')
-        this.#busy = false;
-        this.#transitionQueue = [];
         // Gestionar celdas vacías (sin minas alrededor)
         const minesAround = this.minesAround(row, column);
         if (!minesAround) {
@@ -194,8 +200,8 @@ export class Buscaminas {
         // Si el tipo es 1 gana el juego, si no, pierde
         // Añadir texto de información
         this.#timer.pause();
-        document.querySelector('#result h3').innerText = type === 1 ? '!Enhorabuena!' : '¡Has fallado!';
-        document.querySelector('#result p:first-of-type').innerText = type === 1 ? 'Descubriste todas las minas' : 'Inténtalo de nuevo';
+        document.querySelector('#result h3').innerText = type === 1 ? '¡Enhorabuena!' : '¡Has fallado!';
+        document.querySelector('#result h3').style.color = type === 1 ? 'green' : 'red';
 
         if (type === 1) {
             // Comprobar récord
@@ -233,13 +239,20 @@ export class Buscaminas {
         }
 
         // Animar resultado
-        document.getElementById('console').style.gap = '30px';
-        document.getElementById('result').style.width = '220px';
+        document.getElementById('console').style.height = '200px';
+        document.getElementById('info').style.height = '50px';
+        document.getElementById('result').style.height = '110px';
+        document.getElementById('mines').style.height = '0';
+
         // Botón "Nueva partida"
         document.querySelector('#result button').addEventListener('click', () => {
-            document.getElementById('result').style.width = '0';
+            // Ocultar resultado del juego y abrir ventana de comenzar nuevo juego
+            document.getElementById('console').style.height = 'auto';
+            document.getElementById('info').style.height = '100px';
+            document.getElementById('result').style.height = '0';
+            document.getElementById('mines').style.height = '100%';
             document.getElementById('result').addEventListener("transitionend", () => {
-                document.getElementById('console').style.gap = 0;
+                // document.getElementById('console').style.gap = 0;
             }, { once: true });
 
             this.showPrompt();
@@ -279,7 +292,6 @@ export class Buscaminas {
         }, 0);
     }
 
-
     // Función que abre espacios libres cuando se pincha sobre una celda libre (sin minas que la rodee)
     clearEmptyCells = (cell) => {
         // Se itera por las 8 celdas que rodean la celda pulsada
@@ -302,26 +314,27 @@ export class Buscaminas {
             }
         }
     }
+
     // Lógica que redibuja y reconfigura la celda (añade número, cambia color de fondo, etc)
     updateCellDesign = (newCell, minesAround) => {
         const index = newCell.id;
         let div = document.querySelectorAll(`#grid>div.cell:nth-of-type(${index})`)[0];
 
         // Se escribe en la celda  el número de minas que rodea la celda
-        // div.textContent = minesAround ? minesAround : '';
+        div.textContent = minesAround ? minesAround : '';
 
-        // // Se colores el número en función de su valor
-        // const colors = {
-        //     1: "blue",
-        //     2: "green",
-        //     3: "red",
-        //     4: "brown",
-        //     5: "navy",
-        //     6: "purple",
-        //     7: "purple",
-        //     8: "purple",
-        // };
-        // div.style.color = colors[minesAround];
+        // Se colores el número en función de su valor
+        const colors = {
+            1: "blue",
+            2: "green",
+            3: "red",
+            4: "brown",
+            5: "navy",
+            6: "purple",
+            7: "purple",
+            8: "purple",
+        };
+        div.style.color = colors[minesAround];
 
         // Se elimina bandera de la celda en caso de haberla
         if (newCell.flag || newCell.mark) {
@@ -335,85 +348,7 @@ export class Buscaminas {
 
         // desactiva celda (Se pinta de blanco)
         div.classList.add('disabled');
-
-        const existsCell = this.#transitionQueue.some(obj => obj.cell.id === newCell.id);
-        if (!existsCell) {
-            this.#transitionQueue.push({ 'cell': newCell, 'div': div, 'minesAround': minesAround });
-        }
-
-        this.requestTransition2();
         newCell.disabled = true;
-    }
-
-    requestTransition2 = () => {
-        console.log(this.#transitionQueue.length)
-        if (this.#transitionQueue.length && !this.#busy) {
-            this.#busy = true;
-            setTimeout(() => {
-                let obj = this.#transitionQueue.shift();
-                obj.div.style.backgroundColor = 'white';
-
-                // Se colores el número en función de su valor
-                const colors = {
-                    1: "blue",
-                    2: "green",
-                    3: "red",
-                    4: "brown",
-                    5: "navy",
-                    6: "purple",
-                    7: "purple",
-                    8: "purple",
-                };
-
-                // Se escribe en la celda  el número de minas que rodea la celda
-                obj.div.style.color = colors[obj.minesAround];
-                obj.div.textContent = obj.minesAround ? obj.minesAround : '';
-
-                this.#busy = false;
-                this.requestTransition2();
-            }, 1);
-        }
-    }
-
-
-    requestTransition = (cell, gridCell, newColor) => {
-        return new Promise(resolve => {
-            this.#transitionQueue.push({ cell, newColor, resolve });
-            console.log(this.#transitionQueue.includes(cell))
-            // this.processQueue();
-        }).then(() => {
-            console.log(Math.random());
-        });
-    }
-
-    processQueue = () => {
-        // console.log(this.#transitionQueue.length);
-        console.log('---', this.#transitionQueue.length);
-        if (this.#busy || this.#transitionQueue.length === 0) return;
-        this.#busy = true;
-        console.log('a')
-
-        let { cell, newColor, resolve } = this.#transitionQueue.shift();
-
-        // while (cell.style.backgroundColor === newColor) {
-        //     let item = this.#transitionQueue.shift();
-        //     console.log(item)
-        //     // if (item.cell) console.log(item.cell.style.backgroundColor, newColor);
-        // }
-
-        console.log(this.#transitionQueue.length, cell)
-        const handler = event => {
-            console.log('c');
-            if (event.propertyName === "background-color") {
-                this.#busy = false;
-                console.log('c');
-                resolve();
-                this.processQueue(); // Llamar al siguiente
-            }
-        };
-        console.log('e');
-        cell.addEventListener("transitionend", handler, { once: true });
-        cell.style.backgroundColor = newColor;
     }
 
     // Lógica que manipula el uso de banderas
@@ -461,9 +396,8 @@ export class Buscaminas {
             this.#clickedCell = event.target;
             if (event.buttons === 1 && !this.#clickedCell.classList.contains('disabled')) {
                 // Pintar la celda pulsada de gris oscuro
-
                 this.#clickedCell.classList.add('cell-pressed');
-            } else if (event.buttons === 2) {
+            } else if (event.buttons === 2) { // Click derecho
                 event.preventDefault();
                 this.fixFlag();
             }
@@ -476,6 +410,18 @@ export class Buscaminas {
                 this.checkClick();
             }
         });
+
+        // document.addEventListener('touchstart'), event => {
+        //     alert(1)
+        //     this.#movilTimer = setTimeout(() => {
+        //         customContextAction(e);
+        //     }, 600); // medio segundo ≈ clic derecho
+        // }
+        // document.addEventListener("touchend", () => clearTimeout(this.#movilTimer));
+
+        // function customContextAction(e) {
+        //     alert(10);
+        // }
     }
 }
 

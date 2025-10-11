@@ -29,6 +29,7 @@ main {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                padding: 30px;
                 
                 h1 {
                     margin: 0;
@@ -48,6 +49,7 @@ main {
                 width: 100%;
                 margin: 0 auto;
                 transition: height .5s ease;
+                padding: 30px;
                 // gap: 10px;
 
                 #info {
@@ -119,7 +121,6 @@ main {
                             background-repeat: no-repeat;
                             background-size: 15px 15px;
                             background-position: center;
-                            
                             cursor: pointer;
                         }
                     }
@@ -159,6 +160,10 @@ main {
                 border-left: solid 2px abs.$grey-dark;
                 user-select: none;
                 transition: background-color .2s ease;
+                position: relative;
+                -webkit-user-select: none;
+                -webkit-touch-callout: none;
+                user-select: none;
 
                 &.cell-pressed {
                     background-color: abs.$grey-dark;
@@ -204,6 +209,10 @@ main {
                 height: 200px;
                 margin: 0 auto 30px;
                 gap: 10px;
+
+                > div {
+                    padding: 0;
+                }
             }
 
             #grid {
