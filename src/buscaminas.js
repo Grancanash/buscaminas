@@ -6,7 +6,7 @@ export class Buscaminas {
     #remainingMines;
     #clickedCell;
     #timer;
-    #movilTimer;
+    #clickUpTimer;
     #display;
 
     constructor() {
@@ -393,7 +393,6 @@ export class Buscaminas {
         // Listener para el ratón pulsado
         document.addEventListener('pointerdown', event => {
             // Se asegura que se pulse una celda del tablero
-
             if (!event.target.classList.contains('cell')) return;
             this.#clickedCell = event.target;
             if (event.pointerType === "mouse") {
@@ -407,27 +406,40 @@ export class Buscaminas {
             } else if (event.pointerType === 'touch') {
                 event.preventDefault();
                 this.#clickedCell.classList.add('cell-pressed');
+
                 // Simulación click derecho en móviles
-                this.#movilTimer = setTimeout(() => {
+                if (this.#clickUpTimer) {
+                    this.removeClickupTimeout();
                     this.fixFlag();
-                }, 600);
+                }
             }
         });
 
         // Listener para el ratón liberado
         document.addEventListener('pointerup', event => {
-            if (event.button === 0) {
+            if (event.pointerType === 'mouse') {
+                if (event.button === 0) {
+                    if (this.#clickedCell) {
+                        this.#clickedCell.classList.remove('cell-pressed');
+                        this.checkClick();
+                    }
+                }
+            } else if (event.pointerType === 'touch') {
                 if (this.#clickedCell) {
-                    this.#clickedCell.classList.remove('cell-pressed');
-                    this.checkClick();
+                    this.#clickUpTimer = setTimeout(() => {
+                        this.removeClickupTimeout();
+                        this.#clickedCell.classList.remove('cell-pressed');
+                        this.checkClick();
+                    }, 100)
                 }
             }
+
         });
+    }
 
-        document.addEventListener("pointerup", () => clearTimeout(this.#movilTimer));
-        document.addEventListener("pointerleave", () => clearTimeout(this.#movilTimer));
-
-
+    removeClickupTimeout = () => {
+        clearTimeout(this.#clickUpTimer);
+        this.#clickUpTimer = null;
     }
 }
 

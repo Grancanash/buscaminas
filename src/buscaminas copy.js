@@ -202,6 +202,7 @@ export class Buscaminas {
         this.#timer.pause();
         document.querySelector('#result h3').innerText = type === 1 ? '¡Enhorabuena!' : '¡Has fallado!';
         document.querySelector('#result h3').style.color = type === 1 ? 'green' : 'red';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
         if (type === 1) {
             // Comprobar récord
@@ -352,7 +353,7 @@ export class Buscaminas {
     }
 
     // Lógica que manipula el uso de banderas
-    fixFlag = () => {
+    fixFlag = (event) => {
         const cell = this.#grid[this.getIndexCell(this.#clickedCell)]
         const flags = this.#grid.reduce((acc, cell) => acc + (cell.flag ? 1 : 0), 0);
 
@@ -390,38 +391,43 @@ export class Buscaminas {
         // Se elimina el menú contextual al pulsar botón derecho del ratón
         document.addEventListener('contextmenu', event => event.preventDefault());
         // Listener para el ratón pulsado
-        document.addEventListener('mousedown', event => {
+        document.addEventListener('pointerdown', event => {
             // Se asegura que se pulse una celda del tablero
+
             if (!event.target.classList.contains('cell')) return;
             this.#clickedCell = event.target;
-            if (event.buttons === 1 && !this.#clickedCell.classList.contains('disabled')) {
-                // Pintar la celda pulsada de gris oscuro
-                this.#clickedCell.classList.add('cell-pressed');
-            } else if (event.buttons === 2) { // Click derecho
+            if (event.pointerType === "mouse") {
+                if (event.button === 0 && !this.#clickedCell.classList.contains('disabled')) {
+                    // Pintar la celda pulsada de gris oscuro
+                    this.#clickedCell.classList.add('cell-pressed');
+                } else if (event.button === 2) { // Click derecho
+                    event.preventDefault();
+                    this.fixFlag();
+                }
+            } else if (event.pointerType === 'touch') {
                 event.preventDefault();
-                this.fixFlag();
+                this.#clickedCell.classList.add('cell-pressed');
+                // Simulación click derecho en móviles
+                this.#movilTimer = setTimeout(() => {
+                    this.fixFlag();
+                }, 600);
             }
         });
 
         // Listener para el ratón liberado
-        document.addEventListener('mouseup', event => {
-            if (this.#clickedCell) {
-                this.#clickedCell.classList.remove('cell-pressed');
-                this.checkClick();
+        document.addEventListener('pointerup', event => {
+            if (event.button === 0) {
+                if (this.#clickedCell) {
+                    this.#clickedCell.classList.remove('cell-pressed');
+                    this.checkClick();
+                }
             }
         });
 
-        // document.addEventListener('touchstart'), event => {
-        //     alert(1)
-        //     this.#movilTimer = setTimeout(() => {
-        //         customContextAction(e);
-        //     }, 600); // medio segundo ≈ clic derecho
-        // }
-        // document.addEventListener("touchend", () => clearTimeout(this.#movilTimer));
+        document.addEventListener("pointerup", () => clearTimeout(this.#movilTimer));
+        document.addEventListener("pointerleave", () => clearTimeout(this.#movilTimer));
 
-        // function customContextAction(e) {
-        //     alert(10);
-        // }
+
     }
 }
 
