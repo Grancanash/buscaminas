@@ -394,23 +394,30 @@ export class Buscaminas {
         document.addEventListener('pointerdown', event => {
             // Se asegura que se pulse una celda del tablero
             if (!event.target.classList.contains('cell')) return;
+            const prevCell = this.#clickedCell;
             this.#clickedCell = event.target;
             if (event.pointerType === "mouse") {
                 if (event.button === 0 && !this.#clickedCell.classList.contains('disabled')) {
                     // Pintar la celda pulsada de gris oscuro
                     this.#clickedCell.classList.add('cell-pressed');
                 } else if (event.button === 2) { // Click derecho
+                    // Dibujar bandera
                     event.preventDefault();
                     this.fixFlag();
                 }
             } else if (event.pointerType === 'touch') {
                 event.preventDefault();
                 this.#clickedCell.classList.add('cell-pressed');
-
-                // Simulación click derecho en móviles
+                // Simulación click derecho en móviles con doble touch
                 if (this.#clickUpTimer) {
-                    this.removeClickupTimeout();
-                    this.fixFlag();
+                    this.#clickedCell.classList.remove('cell-pressed');
+                    if (this.#clickedCell === prevCell) {
+                        // Dibujar bandera
+                        this.removeClickupTimeout();
+                        this.fixFlag();
+                    } else {
+                        prevCell.classList.remove('cell-pressed');
+                    }
                 }
             }
         });
@@ -418,6 +425,7 @@ export class Buscaminas {
         // Listener para el ratón liberado
         document.addEventListener('pointerup', event => {
             if (event.pointerType === 'mouse') {
+                // Mouse Up del ratón
                 if (event.button === 0) {
                     if (this.#clickedCell) {
                         this.#clickedCell.classList.remove('cell-pressed');
@@ -425,12 +433,14 @@ export class Buscaminas {
                     }
                 }
             } else if (event.pointerType === 'touch') {
+                // Touch Up de dispositivos móviles
+                // Se usa temporizador de 200ms para dar tiempo a un doble touch y dibujar una bandera,
+                // antes de que se descubra la casilla.
                 if (this.#clickedCell) {
                     this.#clickUpTimer = setTimeout(() => {
                         this.removeClickupTimeout();
-                        this.#clickedCell.classList.remove('cell-pressed');
                         this.checkClick();
-                    }, 100)
+                    }, 200)
                 }
             }
 
