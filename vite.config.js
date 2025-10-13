@@ -14,8 +14,7 @@ export default defineConfig({
         outDir: 'dist', // carpeta de producción
         rollupOptions: {
             input: {
-                home: resolve(__dirname, 'index.html'), // página principal
-                project1: resolve(__dirname, 'projects/buscaminas/index.html'),
+                input: resolve(__dirname, 'index.html'), // único punto de entrada
             }
         }
     }
