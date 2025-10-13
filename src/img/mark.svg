@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="-1.1669482"
-     inkscape:cy="9.5322545"
+     inkscape:zoom="22.4"
+     inkscape:cx="0.66125987"
+     inkscape:cy="8.5094927"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -35,11 +35,11 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      units="px"
-     inkscape:window-width="1298"
-     inkscape:window-height="1032"
-     inkscape:window-x="182"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -57,16 +57,14 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-78.96528,-139.3588)">
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:'Adobe Arabic';-inkscape-font-specification:'Adobe Arabic, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#01475e;fill-opacity:1;stroke:none;stroke-width:0.264583;"
-       x="80.05307"
-       y="144.47476"
-       id="text835"><tspan
-         sodipodi:role="line"
-         id="tspan833"
-         x="80.05307"
-         y="144.47476"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.5833px;font-family:'Adobe Arabic';-inkscape-font-specification:'Adobe Arabic, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#01475e;stroke-width:0.264583;fill-opacity:1;">?</tspan></text>
+    <g
+       aria-label="?"
+       id="text835"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8.27475px;line-height:1.25;font-family:'Adobe Arabic';-inkscape-font-specification:'Adobe Arabic, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#01475e;fill-opacity:1;stroke:none;stroke-width:0.206868">
+      <path
+         d="m 81.746465,142.58645 c -0.125253,-0.1495 -0.157576,-0.25859 -0.157576,-0.34748 0,-0.21414 0.428283,-0.4404 0.618182,-0.57373 0.30303,-0.20606 0.351515,-0.38384 0.351515,-0.62627 0,-0.54545 -0.565656,-1.03434 -1.086869,-1.03434 h -0.01212 c -0.141414,0 -0.460606,0.0687 -0.658586,0.24242 -0.08485,0.0808 -0.137374,0.14142 -0.137374,0.25859 0,0.22222 0.210101,0.41616 0.351515,0.41616 0.109091,0 0.408081,-0.43636 0.808082,-0.43636 0.193939,0 0.274747,0.0848 0.274747,0.21818 0,0.12929 -0.311111,0.30303 -0.658586,0.51313 -0.440404,0.27071 -0.581818,0.50101 -0.581818,0.72323 0,0.37576 0.448485,0.67071 0.759596,0.78788 z m -0.222222,1.41818 c 0.262626,0 0.452525,-0.18586 0.452525,-0.46465 0,-0.26262 -0.189899,-0.45656 -0.452525,-0.45656 -0.258586,0 -0.448485,0.19394 -0.448485,0.45656 0,0.27879 0.189899,0.46465 0.440404,0.46465 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8.27475px;font-family:'Adobe Arabic';-inkscape-font-specification:'Adobe Arabic, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#01475e;fill-opacity:1;stroke-width:0.206868"
+         id="path832" />
+    </g>
   </g>
 </svg>
