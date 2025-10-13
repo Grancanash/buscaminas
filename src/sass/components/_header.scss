@@ -1,0 +1,149 @@
+@use '../abstracts/abstracts' as abs;
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 2px;
+    
+    .box {
+        display: flex;
+        padding: 0 20px;
+        border: 1px solid abs.$grey-light;
+        border-radius: 5px;
+        background-color: abs.$blue-light;
+    }
+
+    #title {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 30px;
+        
+        h1 {
+            color: abs.$blue;
+            margin: 0;
+        }
+
+        p:last-of-type {
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+
+    #console {
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 0 auto;
+        transition: height .5s ease;
+        padding: 30px;
+
+        #info {
+            width: max-content;
+            display: flex;
+            flex-direction: column;
+            height:100px;
+            transition: height .5s ease;
+            
+            p > span {
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 10px;
+                font-family: abs.$digital7Mono-font;
+                font-size: 40px;
+            }
+            #mines {
+                overflow: hidden;
+                height: 100%;
+                transition: all .5s ease;
+            }
+        }
+
+        #result {
+            height: 0;
+            overflow: hidden;
+            transition: all .5s ease;
+
+            > div {
+
+                width: max-content;
+                display: flex;
+                overflow: hidden;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+
+                h3 {
+                    font-size: 30px;
+                }
+
+                button {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    #records {
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+
+        padding: 20px;
+
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:first-of-type {
+                flex: 2;
+                font-size: 24px;
+                
+                .btn-reset {
+                    width: 30px;
+                    height: 30px;
+                    background: url('../../../ ../../img/reset.svg');
+                    background-repeat: no-repeat;
+                    background-size: 15px 15px;
+                    background-position: center;
+                    cursor: pointer;
+                }
+            }
+
+            &:not(:first-of-type) {
+                flex: 1;
+                span {
+                    flex: 1;
+                    &:last-of-type {
+                        font-family: abs.$digital7Mono-font;
+                        font-size: 20px;
+                    }
+                }
+            }
+            
+        }
+    }
+
+    @include abs.breakpoint(desktop) {
+        flex-direction: row;
+        width: max-content;
+        height: max-content;
+        margin: 0 auto 30px;
+        gap: 10px;
+        padding: 0;
+
+        > div {
+            padding: 0;
+        }
+
+        #console {
+            padding: 0 20px;
+        }
+    }
+}

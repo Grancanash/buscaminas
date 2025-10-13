@@ -1,4 +1,4 @@
-import { Timer } from '../../../src/utils';
+import { Timer } from './utils';
 
 export class Buscaminas {
     #grid;
@@ -202,6 +202,7 @@ export class Buscaminas {
         this.#timer.pause();
         document.querySelector('#result h3').innerText = type === 1 ? '¡Enhorabuena!' : '¡Has fallado!';
         document.querySelector('#result h3').style.color = type === 1 ? 'green' : 'red';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
 
         if (type === 1) {
             // Comprobar récord

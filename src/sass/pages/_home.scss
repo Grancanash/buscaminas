@@ -1,0 +1,84 @@
+@use '../abstracts/abstracts' as abs;
+
+main {
+    text-align: center;
+
+    section {
+
+        #grid {
+            display: grid;
+            border-top: solid 5px abs.$grey-light;
+            border-right: solid 5px abs.$grey-light;
+            border-bottom: solid 5px abs.$grey;
+            border-left: solid 5px abs.$grey;
+
+            > div {
+                aspect-ratio: 1 / 1;
+                background-color: abs.$grey-superlight;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                border-top: solid 2px abs.$grey-light;
+                border-right: solid 2px abs.$grey-light;
+                border-bottom: solid 2px abs.$grey-dark;
+                border-left: solid 2px abs.$grey-dark;
+                user-select: none;
+                transition: background-color .2s ease;
+                position: relative;
+                -webkit-user-select: none;
+                -webkit-touch-callout: none;
+                user-select: none;
+
+                &.cell-pressed {
+                    background-color: abs.$grey-dark;
+                }
+
+                &.disabled {
+                    background-color: abs.$white;
+                }
+
+                &.flag {
+                    background: url('../../img/flag.svg') #e1e1e1;
+                    background-repeat: no-repeat;
+                    background-size: 70%;
+                    background-position: center;
+                }
+
+                &.mark {
+                    background: url('../../img/mark.svg') #e1e1e1;
+                    background-repeat: no-repeat;
+                    background-size: 60%;
+                    background-position: center;
+                }
+
+                &.mine {
+                    background: url('../../img/mine.svg') abs.$white;
+                    background-repeat: no-repeat;
+                    background-size: 70%;
+                    background-position: center;
+                }
+            }
+        }
+
+    }
+
+    @include abs.breakpoint(desktop) {
+        width: 1000px;
+        margin: 50px auto;
+
+        section  {
+            #grid {
+                display: inline-grid;
+                box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+                > div {
+                    width: 30px;
+                    height: 30px;
+                }
+
+            }
+        }
+    }
+    
+}

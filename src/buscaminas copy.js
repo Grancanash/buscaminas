@@ -1,4 +1,4 @@
-import { Timer } from '../../../src/utils';
+import { Timer } from './utils';
 
 export class Buscaminas {
     #grid;
