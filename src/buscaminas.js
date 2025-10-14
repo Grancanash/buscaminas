@@ -74,6 +74,10 @@ export class Buscaminas {
 
     showModal = (idModal) => {
         const box = document.getElementById(idModal);
+        const div = box.querySelector('.box>div');
+        if (div) {
+            div.scrollTop = 0;
+        }
         box.style.display = "flex";
         setTimeout(() => {
             box.style.opacity = 1;
@@ -257,7 +261,6 @@ export class Buscaminas {
         }
 
         // Animar resultado
-        document.getElementById('console').style.height = '200px';
         document.getElementById('info').style.height = '50px';
         document.getElementById('result').style.height = '110px';
         document.getElementById('mines').style.height = '0';

@@ -29,6 +29,7 @@ main {
                 -webkit-user-select: none;
                 -webkit-touch-callout: none;
                 user-select: none;
+                line-height: 1em;
 
                 &.cell-pressed {
                     background-color: abs.$grey-dark;

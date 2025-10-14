@@ -36,6 +36,22 @@ header {
         #btn-instrucciones {
             margin-top: 20px;
         }
+
+        @include abs.breakpoint(tablet) {
+            flex: none;
+            width: 100%;
+            padding: 10px;
+
+            #btn-instrucciones {
+                margin: 10px 0;
+            }
+        }
+
+        @include abs.breakpoint(desktop) {
+            flex: 1;
+            width: auto;
+            padding: 30px;
+        }
     }
 
     #console {
@@ -95,7 +111,14 @@ header {
             }
         }
 
+        @include abs.breakpoint(tablet) {
+            flex: none;
+            width: calc(50% - 2px);
+        }
+
         @include abs.breakpoint(desktop) {
+            flex: 1;
+            width: auto;
             order: 2;
         }
     }
@@ -140,18 +163,42 @@ header {
             }
             
         }
+        
+        @include abs.breakpoint(tablet) {
+            flex: none;
+            width: calc(50% - 2px);
+        }
 
         @include abs.breakpoint(desktop) {
+            flex: 1;
+            width: auto;
             order: 3;
         }
     }
 
-    @include abs.breakpoint(desktop) {
+    @include abs.breakpoint(tablet) {
         flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+
+        .box:not(:nth-child(1)) {
+            height: 222px;
+        }
+    }
+
+    @include abs.breakpoint(desktop) {
         height: max-content;
         margin: 0 auto 30px;
         gap: 10px;
         padding: 0;
+
+        .box {
+            height: 200px;
+        }
+
+        .box:not(:nth-child(1)) {
+            height: auto;
+        }
 
         > div {
             padding: 0;
