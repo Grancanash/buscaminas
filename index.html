@@ -13,8 +13,8 @@
             <header>
                 <div id="title" class="box">
                     <h1>Buscaminas</h1>
-                    <p>Descubre las casillas vacías evitando las minas ocultas</p>
-                    <p>¡¡Suerte!!</p>
+                    <!-- <p>Descubre las casillas vacías evitando las minas ocultas</p> -->
+                    <button id="btn-instrucciones">Instrucciones</button>
                 </div>
                 <div id="console" class="box">
                     <div id="info">
@@ -44,12 +44,46 @@
             <!-- Fin Tablero del juego -->
         </section>
     </main>
-    <div id="prompt-window" class="window">
-        <div class="prompt-box">
+    <div id="prompt-difficult" class="modal">
+        <div class="box">
             <h2>Tamaño del tablero</h2>
             <p><button type="button" id="btn_beginner">Principiante: 9x9</button></p>
             <p><button type="button" id="btn_intermediate">Intermedio: 16x16</button></p>
             <p><button type="button" id="btn_expert">Experto: 16x30</button></p>
+        </div>
+    </div>
+    <div id="modal-instructions" class="modal">
+        <div class="box ">
+            <h2>Cómo jugar al Buscaminas</h2>
+            <div>
+                <ul>
+                    <li>
+                        <p>Haz clic en una casilla para descubrirla.</p>
+                    </li>
+                    <li>
+                        <p>Evita las minas ocultas.</p>
+                    </li>
+                    <li>
+                        <p>Los números indican cuántas minas hay alrededor.</p>
+                    </li>
+                    <li>
+                        <p><strong>Marcar una mina:</strong></p>
+                        <ul>
+                            <li>
+                                <p>En PC: clic derecho</p>
+                            </li>
+                            <li>
+                                <p>En móvil: doble pulsación</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>Descubre todas las casillas sin minas para ganar.</p>
+                    </li>
+                </ul>
+                <p id="responsive"><strong>Nota:</strong> El juego es <strong>responsive</strong>, se adapta a cualquier tamaño de pantalla.</p>
+            </div>
+            <button id="btn-accept-intrutions">Aceptar</button>
         </div>
     </div>
     <script type="module" src="./src/main.js"></script>

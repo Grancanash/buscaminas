@@ -20,6 +20,7 @@ header {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         padding: 30px;
         
         h1 {
@@ -30,6 +31,10 @@ header {
         p:last-of-type {
             font-size: 22px;
             font-weight: 600;
+        }
+
+        #btn-instrucciones {
+            margin-top: 20px;
         }
     }
 
@@ -43,6 +48,7 @@ header {
         margin: 0 auto;
         transition: height .5s ease;
         padding: 30px;
+        font-size: 22px;
 
         #info {
             width: max-content;
@@ -114,7 +120,7 @@ header {
                 .btn-reset {
                     width: 30px;
                     height: 30px;
-                    background: url('../../../ ../../img/reset.svg');
+                    background: url('../../img/reset.svg');
                     background-repeat: no-repeat;
                     background-size: 15px 15px;
                     background-position: center;
@@ -142,7 +148,6 @@ header {
 
     @include abs.breakpoint(desktop) {
         flex-direction: row;
-        width: max-content;
         height: max-content;
         margin: 0 auto 30px;
         gap: 10px;

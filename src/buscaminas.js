@@ -11,12 +11,28 @@ export class Buscaminas {
 
     constructor() {
         this.#timer = new Timer("timer-display");
-        this.promptGridSize()
-            .then(event => {
-                this.initListeners();
-            })
         // Reinicio de récords
         this.handleResetButton();
+        // Mostrar instrucciones
+        this.showInstructions().then(() => {
+            // Mostrar prompt de dificultad
+            this.promptGridSize()
+                .then(event => {
+                    this.initListeners();
+                })
+        });
+    }
+
+    showInstructions = () => {
+        // Mostrar nondal de instrucciones
+        return new Promise((resolve) => {
+            const idModal = 'modal-instructions'
+            this.showModal(idModal)
+            document.getElementById('btn-accept-intrutions').addEventListener('click', () => {
+                this.hideModal(idModal);
+                resolve();
+            })
+        })
     }
 
     handleResetButton = () => {
@@ -28,37 +44,37 @@ export class Buscaminas {
     }
 
     promptGridSize = () => {
-        document.getElementById('prompt-window').style.display = 'block';
+        this.showModal('prompt-difficult');
         return new Promise(resolve => {
             document.getElementById('btn_beginner').addEventListener('click', (event) => {
-                this.hidePrompt();
+                this.hideModal('prompt-difficult');
                 this.initGrid(1);
                 resolve();
             });
             document.getElementById('btn_intermediate').addEventListener('click', (event) => {
-                this.hidePrompt();
+                this.hideModal('prompt-difficult');
                 this.initGrid(2);
                 resolve();
             });
             document.getElementById('btn_expert').addEventListener('click', (event) => {
-                this.hidePrompt();
+                this.hideModal('prompt-difficult');
                 this.initGrid(3);
                 resolve();
             });
         })
     }
 
-    hidePrompt = () => {
-        const box = document.getElementById('prompt-window');
+    hideModal = (idModal) => {
+        const box = document.getElementById(idModal);
         box.style.opacity = 0;
         box.addEventListener("transitionend", () => {
             box.style.display = "none";
         }, { once: true });
     }
 
-    showPrompt = () => {
-        const box = document.getElementById('prompt-window');
-        box.style.display = "block";
+    showModal = (idModal) => {
+        const box = document.getElementById(idModal);
+        box.style.display = "flex";
         setTimeout(() => {
             box.style.opacity = 1;
         }, 100);
@@ -82,6 +98,7 @@ export class Buscaminas {
             this.#display = 'd'
         }
 
+        // Configuración del grid según dificultad
         let row, column = 0;
         switch (level) {
             case 1:
@@ -256,7 +273,7 @@ export class Buscaminas {
                 // document.getElementById('console').style.gap = 0;
             }, { once: true });
 
-            this.showPrompt();
+            this.showModal('prompt-difficult');
         })
     }
 
@@ -388,6 +405,10 @@ export class Buscaminas {
 
     // Listeners principales del tablero (MouseDown, MouseUp, ContextMenu)
     initListeners = () => {
+        // Listener del botón de instrucciones
+        document.getElementById('btn-instrucciones').addEventListener('click', () => {
+            this.showModal('modal-instructions');
+        })
         // Se elimina el menú contextual al pulsar botón derecho del ratón
         document.addEventListener('contextmenu', event => event.preventDefault());
         // Listener para el ratón pulsado

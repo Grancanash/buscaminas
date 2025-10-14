@@ -28,7 +28,7 @@ export class Buscaminas {
     }
 
     promptGridSize = () => {
-        document.getElementById('prompt-window').style.display = 'block';
+        document.getElementById('prompt-difficult').style.display = 'block';
         return new Promise(resolve => {
             document.getElementById('btn_beginner').addEventListener('click', (event) => {
                 this.hidePrompt();
@@ -49,7 +49,7 @@ export class Buscaminas {
     }
 
     hidePrompt = () => {
-        const box = document.getElementById('prompt-window');
+        const box = document.getElementById('prompt-difficult');
         box.style.opacity = 0;
         box.addEventListener("transitionend", () => {
             box.style.display = "none";
@@ -57,7 +57,7 @@ export class Buscaminas {
     }
 
     showPrompt = () => {
-        const box = document.getElementById('prompt-window');
+        const box = document.getElementById('prompt-difficult');
         box.style.display = "block";
         setTimeout(() => {
             box.style.opacity = 1;
