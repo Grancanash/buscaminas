@@ -221,6 +221,7 @@ export class Buscaminas {
         // Si el tipo es 1 gana el juego, si no, pierde
         // Añadir texto de información
         this.#timer.pause();
+
         document.querySelector('#result h3').innerText = type === 1 ? '¡Enhorabuena!' : '¡Has fallado!';
         document.querySelector('#result h3').style.color = type === 1 ? 'green' : 'red';
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -228,22 +229,23 @@ export class Buscaminas {
         if (type === 1) {
             // Comprobar récord
             const gridLength = 'cells_' + this.#grid.length;
-            const timer = this.#timer.getTimer();
+            // const timer = this.#timer.getTimer();
+            const totalTime = this.#timer.totalTime;
 
             let records = JSON.parse(localStorage.getItem('buscaminas_records'));
             if (records) {
                 if (records[gridLength]) {
-                    if (timer < records[gridLength]) {
-                        records[gridLength] = timer;
+                    if (totalTime < records[gridLength]) {
+                        records[gridLength] = totalTime;
                         this.updateRecords(records);
                     }
                 } else {
-                    records[gridLength] = timer;
+                    records[gridLength] = totalTime;
                     this.updateRecords(records);
                 }
             } else {
                 records = {};
-                records[gridLength] = timer;
+                records[gridLength] = totalTime;
                 this.updateRecords(records);
             }
 
@@ -448,26 +450,27 @@ export class Buscaminas {
 
         // Listener para el ratón liberado
         document.addEventListener('pointerup', event => {
-            if (event.pointerType === 'mouse') {
-                // Mouse Up del ratón
-                if (event.button === 0) {
+            if (!event.target.type) {
+                if (event.pointerType === 'mouse') {
+                    // Mouse Up del ratón
+                    if (event.button === 0) {
+                        if (this.#clickedCell) {
+                            this.#clickedCell.classList.remove('cell-pressed');
+                            this.checkClick();
+                        }
+                    }
+                } else if (event.pointerType === 'touch') {
+                    // Touch Up de dispositivos móviles
+                    // Se usa temporizador de 200ms para dar tiempo a un doble touch y dibujar una bandera,
+                    // antes de que se descubra la casilla.
                     if (this.#clickedCell) {
-                        this.#clickedCell.classList.remove('cell-pressed');
-                        this.checkClick();
+                        this.#clickUpTimer = setTimeout(() => {
+                            this.removeClickupTimeout();
+                            this.checkClick();
+                        }, 200)
                     }
                 }
-            } else if (event.pointerType === 'touch') {
-                // Touch Up de dispositivos móviles
-                // Se usa temporizador de 200ms para dar tiempo a un doble touch y dibujar una bandera,
-                // antes de que se descubra la casilla.
-                if (this.#clickedCell) {
-                    this.#clickUpTimer = setTimeout(() => {
-                        this.removeClickupTimeout();
-                        this.checkClick();
-                    }, 200)
-                }
             }
-
         });
     }
 

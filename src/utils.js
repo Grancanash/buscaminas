@@ -1,9 +1,11 @@
 export class Timer {
     #isH;
+    #display;
+    #totalTime;
 
     constructor(displayId, isH = false) {
         this.#isH = isH;
-        this.display = document.getElementById(displayId);
+        this.#display = document.getElementById(displayId);
 
         this.startTime = 0;
         this.elapsed = 0;
@@ -21,11 +23,13 @@ export class Timer {
 
     #tick() {
         const now = Date.now();
-        const total = this.elapsed + (now - this.startTime);
-        this.display.textContent = this.format(total);
+        this.#totalTime = this.elapsed + (now - this.startTime);
+        console.log(this.#totalTime);
+        this.#display.textContent = this.format(this.#totalTime);
     }
 
     getTimer() {
+        console.log((Date.now() - this.startTime) + ' ---------------------');
         return Date.now() - this.startTime;
     }
 
@@ -46,6 +50,10 @@ export class Timer {
         this.startTime = 0;
         this.elapsed = 0;
         this.timer = null;
-        this.display.textContent = `00:00:00${this.#isH ? '.00' : ''}`;
+        this.#display.textContent = `00:00:00${this.#isH ? '.00' : ''}`;
+    }
+
+    get totalTime() {
+        return this.#totalTime;
     }
 }
