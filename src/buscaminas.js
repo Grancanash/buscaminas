@@ -102,7 +102,6 @@ export class Buscaminas {
             this.#display = 'd'
         }
 
-        // Configuración del grid según dificultad
         let row, column = 0;
         switch (level) {
             case 1:
@@ -130,6 +129,15 @@ export class Buscaminas {
             const div = document.createElement('div');
             div.classList.add('cell');
             grid.appendChild(div);
+        }
+
+        // Si tipo de dispositivo es tablet, se tiene que ajustar el ancho del grid al ancho del dispositivo
+        if ((this.#display === 'd' && window.innerWidth < 1200) && level === 3) {
+            document.getElementById('grid').style.display = 'grid';
+            for (const div of document.querySelectorAll('.cell')) {
+                div.style.width = 'inherit';
+                div.style.height = 'inherit';
+            }
         }
 
         const arrMines = this.randomMines(this.#totalMines, row * column);

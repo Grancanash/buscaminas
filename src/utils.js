@@ -24,12 +24,10 @@ export class Timer {
     #tick() {
         const now = Date.now();
         this.#totalTime = this.elapsed + (now - this.startTime);
-        console.log(this.#totalTime);
         this.#display.textContent = this.format(this.#totalTime);
     }
 
     getTimer() {
-        console.log((Date.now() - this.startTime) + ' ---------------------');
         return Date.now() - this.startTime;
     }
 
