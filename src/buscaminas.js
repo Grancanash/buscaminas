@@ -10,9 +10,12 @@ export class Buscaminas {
     #display;
 
     constructor() {
+        // Inicialización del cronómetro
         this.#timer = new Timer("timer-display");
-        // Reinicio de récords
+
+        // Botón reinicio de récords
         this.handleResetButton();
+
         // Mostrar instrucciones
         this.showInstructions().then(() => {
             // Mostrar prompt de dificultad
@@ -24,7 +27,7 @@ export class Buscaminas {
     }
 
     showInstructions = () => {
-        // Mostrar nondal de instrucciones
+        // Mostrar modal de instrucciones
         return new Promise((resolve) => {
             const idModal = 'modal-instructions'
             this.showModal(idModal)
@@ -44,27 +47,22 @@ export class Buscaminas {
     }
 
     promptGridSize = () => {
+        // Modal para elegir nivel de dificultad
         this.showModal('prompt-difficult');
         return new Promise(resolve => {
-            document.getElementById('btn_beginner').addEventListener('click', (event) => {
-                this.hideModal('prompt-difficult');
-                this.initGrid(1);
-                resolve();
-            });
-            document.getElementById('btn_intermediate').addEventListener('click', (event) => {
-                this.hideModal('prompt-difficult');
-                this.initGrid(2);
-                resolve();
-            });
-            document.getElementById('btn_expert').addEventListener('click', (event) => {
-                this.hideModal('prompt-difficult');
-                this.initGrid(3);
-                resolve();
-            });
+            for (const btn of document.getElementsByClassName('btn-difficult')) {
+                btn.addEventListener('click', (event) => {
+                    const level = parseInt(event.target.id.split('btn-difficult-')[1]);
+                    this.hideModal('prompt-difficult');
+                    this.initGrid(level);
+                    resolve();
+                });
+            }
         })
     }
 
     hideModal = (idModal) => {
+        // Ocultar modal
         const box = document.getElementById(idModal);
         box.style.opacity = 0;
         box.addEventListener("transitionend", () => {
@@ -73,6 +71,7 @@ export class Buscaminas {
     }
 
     showModal = (idModal) => {
+        // Mostrar modal
         const box = document.getElementById(idModal);
         const div = box.querySelector('.box>div');
         if (div) {
@@ -131,7 +130,8 @@ export class Buscaminas {
             grid.appendChild(div);
         }
 
-        // Si tipo de dispositivo es tablet, se tiene que ajustar el ancho del grid al ancho del dispositivo
+        // Si tipo de dispositivo es tablet, se tiene que ajustar el ancho del grid 
+        // al ancho del dispositivo en el modo difícil
         if ((this.#display === 'd' && window.innerWidth < 1200) && level === 3) {
             document.getElementById('grid').style.display = 'grid';
             for (const div of document.querySelectorAll('.cell')) {
@@ -140,6 +140,7 @@ export class Buscaminas {
             }
         }
 
+        // Obtener array de minas aleatorias
         const arrMines = this.randomMines(this.#totalMines, row * column);
         let counter = 1;
 
@@ -165,6 +166,7 @@ export class Buscaminas {
     }
 
     randomMines = (totalMines, totalCells) => {
+        // Calcular minas aleatorias
         const numeros = Array.from({ length: totalCells }, (_, i) => i);
         // Barajar con algoritmo de Fisher–Yates
         for (let i = numeros.length - 1; i > 0; i--) {
@@ -175,12 +177,15 @@ export class Buscaminas {
     }
 
     getIndexCell = (cell) => {
+        // Obtener el índice de la celda en el grid del DOM
         const board = document.getElementById('grid');
         const index = Array.from(board.children).indexOf(cell);
         return index;
     }
 
     checkClick = () => {
+        // Chequeo de la pulsación mouseDown / touchDown (Ratón / dedo)
+
         // Iniciar Timer
         if (!this.#timer.startTime) this.#timer.start();
 
@@ -336,7 +341,8 @@ export class Buscaminas {
                     // Lógica que modifica el dom de la celda iterada
                     this.updateCellDesign(newCell, minesAround);
 
-                    // Si la celda iterada está limpia (no la rodea ninguna mina) se vuelve a llamar recursivamente a la función clearEmptyCells()
+                    // Si la celda iterada está limpia (no la rodea ninguna mina) se vuelve a llamar
+                    // recursivamente a la función clearEmptyCells()
                     if (!minesAround && !newCell.emptyChecked) {
                         newCell.emptyChecked = true;
                         this.clearEmptyCells(newCell);
@@ -346,7 +352,7 @@ export class Buscaminas {
         }
     }
 
-    // Lógica que redibuja y reconfigura la celda (añade número, cambia color de fondo, etc)
+    // Lógica que redibuja y reconfigura la celda (añade número, lo colorea, cambia el color de fondo, etc)
     updateCellDesign = (newCell, minesAround) => {
         const index = newCell.id;
         let div = document.querySelectorAll(`#grid>div.cell:nth-of-type(${index})`)[0];
@@ -354,7 +360,7 @@ export class Buscaminas {
         // Se escribe en la celda  el número de minas que rodea la celda
         div.textContent = minesAround ? minesAround : '';
 
-        // Se colores el número en función de su valor
+        // Se colorea el número en función de su valor
         const colors = {
             1: "blue",
             2: "green",
@@ -382,18 +388,22 @@ export class Buscaminas {
         newCell.disabled = true;
     }
 
-    // Lógica que manipula el uso de banderas
+    // Lógica que gestiona el uso de banderas
     fixFlag = (event) => {
         const cell = this.#grid[this.getIndexCell(this.#clickedCell)]
         const flags = this.#grid.reduce((acc, cell) => acc + (cell.flag ? 1 : 0), 0);
 
-        // Se detiene la ejecuión de la lógica de poner banderas si se alcanzó el total de banderas puestas, o la celda está deshabilitada
+        // Se detiene la ejecuión de la lógica de poner banderas si se alcanzó
+        // el total de banderas puestas, o la celda está deshabilitada
         if (cell.disabled) {
             this.#clickedCell = null;
             return;
         }
 
         // Se alternan las clases flag y mark de la celda correspondiente en el DOM
+        // flag = bandera
+        // mark = interrogante
+        // (Si se vuelve a pulsar con botón derecho sobre una bandera, ésta se convierte en interrogante)
         const cellClasses = this.#clickedCell.classList;
         if (cellClasses.contains('flag')) {
             cellClasses.remove('flag');
@@ -424,13 +434,14 @@ export class Buscaminas {
         })
         // Se elimina el menú contextual al pulsar botón derecho del ratón
         document.addEventListener('contextmenu', event => event.preventDefault());
-        // Listener para el ratón pulsado
+        // Listener para el ratón/dedo pulsado
         document.addEventListener('pointerdown', event => {
             // Se asegura que se pulse una celda del tablero
             if (!event.target.classList.contains('cell')) return;
             const prevCell = this.#clickedCell;
             this.#clickedCell = event.target;
             if (event.pointerType === "mouse") {
+                // lógica pulsación botón ratón
                 if (event.button === 0 && !this.#clickedCell.classList.contains('disabled')) {
                     // Pintar la celda pulsada de gris oscuro
                     this.#clickedCell.classList.add('cell-pressed');
@@ -440,6 +451,7 @@ export class Buscaminas {
                     this.fixFlag();
                 }
             } else if (event.pointerType === 'touch') {
+                // lógica pulsación con dedo desde dispositivo móvil
                 event.preventDefault();
                 this.#clickedCell.classList.add('cell-pressed');
                 // Simulación click derecho en móviles con doble touch
@@ -456,7 +468,7 @@ export class Buscaminas {
             }
         });
 
-        // Listener para el ratón liberado
+        // Listener para el ratón/dedo liberado
         document.addEventListener('pointerup', event => {
             if (!event.target.type) {
                 if (event.pointerType === 'mouse') {
