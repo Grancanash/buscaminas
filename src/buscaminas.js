@@ -133,7 +133,8 @@ export class Buscaminas {
         // Si tipo de dispositivo es tablet, se tiene que ajustar el ancho del grid 
         // al ancho del dispositivo en el modo difícil
         if ((this.#display === 'd' && window.innerWidth < 1200) && level === 3) {
-            document.getElementById('grid').style.display = 'grid';
+            document.getElementsByTagName('header')[0].style.marginBottom = 0;
+            grid.style.display = 'grid';
             for (const div of document.querySelectorAll('.cell')) {
                 div.style.width = 'inherit';
                 div.style.height = 'inherit';
