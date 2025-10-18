@@ -493,6 +493,10 @@ export class Buscaminas {
                 }
             }
         });
+
+        window.addEventListener('orientationchange', () => {
+            alert('Orientación cambiada:', screen.orientation.angle);
+        });
     }
 
     removeClickupTimeout = () => {
