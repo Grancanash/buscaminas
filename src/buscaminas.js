@@ -494,7 +494,11 @@ export class Buscaminas {
             }
         });
 
-        window.addEventListener('orientationchange', () => {
+        // window.addEventListener('orientationchange', () => {
+        //     alert('Al cambiar la orientación de tu dispositivo, puede desajustarse el sideño del tablero. Recarga la página para verlo correctamente');
+        // });
+
+        screen.orientation.addEventListener('change', () => {
             alert('Al cambiar la orientación de tu dispositivo, puede desajustarse el sideño del tablero. Recarga la página para verlo correctamente');
         });
     }
